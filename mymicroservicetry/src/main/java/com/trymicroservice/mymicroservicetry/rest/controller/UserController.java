@@ -30,4 +30,11 @@ public class UserController {
         return new ResponseEntity(new UserDTO(userService.updateUser(id, updateUserDTO)), null, HttpStatus.CREATED);
     }
 
+
+    @PostMapping("delete/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
