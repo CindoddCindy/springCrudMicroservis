@@ -4,6 +4,7 @@ import com.trymicroservice.mymicroservicetry.rest.dto.request.MyUserDto;
 import com.trymicroservice.mymicroservicetry.rest.entities.User;
 import com.trymicroservice.mymicroservicetry.rest.exception.InvalidUserDataException;
 import com.trymicroservice.mymicroservicetry.rest.exception.InvalidUserIdentifierException;
+import com.trymicroservice.mymicroservicetry.rest.exception.InvalidUsernameException;
 import com.trymicroservice.mymicroservicetry.rest.exception.UserNotFoundException;
 import com.trymicroservice.mymicroservicetry.rest.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,51 @@ public class UserService {
             return userOpt.get();
         }
         throw new UserNotFoundException(String.format("User not found for Id = %s", id));
+    }
+
+    public User getUserByUsername(String username) {
+        if (username == null) {
+            throw new InvalidUsernameException("username cannot be null");
+        }
+        return userRepository.findByUsername(username);
+    }
+
+    @Transactional
+    public User updateUser(Long id, MyUserDto myUserDto) {
+        if (id == null) {
+            throw new InvalidUserIdentifierException("Id cannot be null");
+        }
+        if (myUserDto == null) {
+            throw new InvalidUserDataException("User account data cannot be null");
+        }
+
+        Optional<User> userOpt = userRepository.findById(id);
+        if (!userOpt.isPresent()) {
+            throw new UserNotFoundException(String.format("The user with Id = %s doesn't exists", id));
+        }
+        User user = userOpt.get();
+
+        // check if the username has not been registered
+        User userByUsername = getUserByUsername(myUserDto.getUsername());
+        if (userByUsername != null) {
+            // check if the user's id is different than the actual user
+            if (!user.getId().equals(userByUsername.getId())) {
+                String msg = String.format("The username %s it's already in use from another user with ID = %s",
+                        myUserDto.getUsername(), userByUsername.getId());
+                log.error(msg);
+                throw new InvalidUserDataException(msg);
+            }
+        }
+
+
+        // update the user
+        user.setUsername(myUserDto.getUsername());
+
+
+        User userUpdated = userRepository.save(user);
+        log.info(String.format("User %s has been updated.", user.getId()));
+
+        return userUpdated;
     }
 
 }
