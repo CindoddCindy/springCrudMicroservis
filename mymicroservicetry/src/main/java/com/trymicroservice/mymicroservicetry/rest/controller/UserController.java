@@ -6,10 +6,7 @@ import com.trymicroservice.mymicroservicetry.rest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -21,6 +18,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody MyUserDto createOrUpdateUserDTO) {
         return new ResponseEntity(new UserDTO(userService.createUser(createOrUpdateUserDTO)), null, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}")
+    public UserDTO getUserById(@PathVariable("id") Long id) {
+        return new UserDTO(userService.getUserById(id));
     }
 
 }
