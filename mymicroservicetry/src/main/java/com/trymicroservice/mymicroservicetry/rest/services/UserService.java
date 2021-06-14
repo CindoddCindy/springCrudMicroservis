@@ -6,6 +6,7 @@ import com.trymicroservice.mymicroservicetry.rest.exception.*;
 import com.trymicroservice.mymicroservicetry.rest.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -118,5 +119,19 @@ public class UserService {
         userRepository.deleteById(id);
         log.info(String.format("User %s has been deleted.", id));
     }
+
+//cobs pske metod ini
+    public ResponseEntity<Object> deleteRole(Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
+            if (userRepository.findById(id).isPresent()) {
+                return ResponseEntity.unprocessableEntity().body("Failed to delete the specified record");
+            } else return ResponseEntity.ok().body("Successfully deleted specified record");
+        } else
+        return ResponseEntity.unprocessableEntity().body("No Records Found");
+
+    }
+
+
 
 }

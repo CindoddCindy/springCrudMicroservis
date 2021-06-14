@@ -37,4 +37,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("deleteUser/{id}")
+    public ResponseEntity<Object> deleteRole(@PathVariable Long id) {
+        return userService.deleteRole(id);
+    }
+
+
+
 }
