@@ -1,10 +1,12 @@
 package com.trymicroservice.mymicroservicetry.rest.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,14 +32,15 @@ public class User {
     @Column(name="email", nullable = false)
     private String email;
 
+    /*
     @Column(name="secured")
     private boolean secured;
 
-
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private Set<Product> product = new HashSet<>();
+     */
 
 
-
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Product> productList;
 
 }

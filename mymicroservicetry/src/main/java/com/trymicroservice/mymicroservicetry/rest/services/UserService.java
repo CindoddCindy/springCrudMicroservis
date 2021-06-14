@@ -98,6 +98,7 @@ public class UserService {
     }
 
 
+    /*
 
     @Transactional
     public void deleteUserById(Long id) {
@@ -119,6 +120,8 @@ public class UserService {
         userRepository.deleteById(id);
         log.info(String.format("User %s has been deleted.", id));
     }
+
+     */
 
 //cobs pske metod ini
     public ResponseEntity<Object> deleteRole(Long id) {

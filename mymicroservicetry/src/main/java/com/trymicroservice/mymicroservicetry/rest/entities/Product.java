@@ -26,10 +26,8 @@ public class Product {
     @Column(name="product_code", nullable = false)
     private int productCode;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "user_id"), name = "user_id")
     private User users;
-
 
 }

@@ -1,6 +1,7 @@
 package com.trymicroservice.mymicroservicetry.rest.dto;
 
 import com.trymicroservice.mymicroservicetry.rest.entities.Product;
+import com.trymicroservice.mymicroservicetry.rest.entities.User;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,13 +19,12 @@ public class ProductDto implements Serializable {
 
     public ProductDto(Product product) {
 
-        if (product != null) {
-            this.id = id;
-            this.productName = productName;
-            this.productQuantity = productQuantity;
-            this.productCode = productCode;
+            if (product != null) {
+                this.id = product.getId();
+                this.productName = product.getProductName();
+                this.productQuantity=product.getProductQuantity();
+                this.productCode = product.getProductCode();
 
         }
-
     }
 }

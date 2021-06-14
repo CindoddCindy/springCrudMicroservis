@@ -15,11 +15,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 public class ProductService {
+    /*
 
     @Autowired
     ProductRepository productRepository;
@@ -49,9 +51,51 @@ public class ProductService {
             log.info(String.format("Product %s has been created.", productCreated.getId()));
             return productCreated;
 
-
-
-
-
         }
+
+
+  @Transactional
+    public Product createProduct(MyProductDto myProductDto,Long userId
+                                 ) {
+            Product product = new Product();
+        return userRepository.findById(userId).map(user -> {
+            myProductDto.setUser(user);
+
+            return productRepository.save(product);
+        }).orElseThrow(() -> new InvalidUserDataException("UserId " + userId + " not found"));
+    }
+
+     */
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public List<Product> getAllProduct() {
+
+        return productRepository.findAll();
+    }
+
+    public Product addProduct(Product product) {
+
+        User user = userRepository.findById(product.getUsers().getId()).orElse(null);
+        if (null == user) {
+            user = new User();
+        }
+        user.setUsername(product.getUsers().getUsername());
+        product.setUsers(user);
+        return productRepository.save(product);
+    }
+
+    public Product editProduct(Product entity) {
+
+        return productRepository.save(entity);
+    }
+
+    public void deleteProduct(Long id) {
+
+        productRepository.deleteById(id);
+    }
 }
