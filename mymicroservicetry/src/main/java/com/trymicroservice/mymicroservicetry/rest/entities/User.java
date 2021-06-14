@@ -35,7 +35,7 @@ public class User {
 
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private Set<Product> products = new HashSet<>();
+    private Set<Product> product = new HashSet<>();
 
 
 
