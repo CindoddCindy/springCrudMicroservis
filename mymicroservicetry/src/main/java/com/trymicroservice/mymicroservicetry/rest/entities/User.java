@@ -34,5 +34,10 @@ public class User {
     private boolean secured;
 
 
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private Set<Product> books = new HashSet<>();
+
+
+
 
 }
