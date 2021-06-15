@@ -66,10 +66,10 @@ public class ProductServiceImpl implements ServiceProduct {
         Product product = new Product();
         BeanUtils.copyProperties(productDto, product);
 
-        Long userId = productDto.getUserId();
-        if (userId != null) {
+        Long user_id = productDto.getUser_id();
+        if (user_id != null) {
             User user = this.userRepository
-                    .findById(userId)
+                    .findById(user_id)
                     .orElse(null);
 
             if (user != null) {
