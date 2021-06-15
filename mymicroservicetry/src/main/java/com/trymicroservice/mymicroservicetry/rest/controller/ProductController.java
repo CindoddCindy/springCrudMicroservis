@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(value = "/products-api")
 public class ProductController {
 
-
+/*
     @Autowired
     private ProductService productService;
 
@@ -37,7 +37,7 @@ public class ProductController {
     }
 
  */
-
+/*
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(@RequestBody MyProductDto myProductDto) {
         return new ResponseEntity(new ProductDto(productService.addProduct(myProductDto)), null, HttpStatus.CREATED);
@@ -57,6 +57,43 @@ public class ProductController {
         return new ResponseEntity<>("Product with ID :" + productId+ " deleted successfully", HttpStatus.OK);
     }
 
+*/
+
+
+
+
+ private final ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping("{id}")
+    public ProductDto findById(@PathVariable Long id) {
+        return this.productService.findById(id);
+    }
+
+    @GetMapping
+    public List<ProductDto> findAll() {
+        return this.productService.findAll();
+    }
+
+    @PostMapping
+    public ProductDto save(@RequestBody ProductDto productDto) {
+        productDto.setId(null);
+        return this.productService.save(shelfDto);
+    }
+
+    @PutMapping
+    public ProductDto update(@RequestBody ProductDto productDto) {
+        return this.productService.save(productDto);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable Long id) {
+        this.productService.deleteById(id);
+    }
 
 
 }
