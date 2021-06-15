@@ -3,6 +3,7 @@ package com.trymicroservice.mymicroservicetry.rest.dto;
 import com.trymicroservice.mymicroservicetry.rest.entities.Product;
 import com.trymicroservice.mymicroservicetry.rest.entities.User;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 
@@ -15,16 +16,15 @@ public class ProductDto implements Serializable {
 
     private String productQuantity;
 
-    private int productCode;
+
+    private Long userId;
 
     public ProductDto(Product product) {
+        BeanUtils.copyProperties(product, this, "userId");
 
-            if (product != null) {
-                this.id = product.getId();
-                this.productName = product.getProductName();
-                this.productQuantity=product.getProductQuantity();
-                this.productCode = product.getProductCode();
-
+         User user = product.getUser();
+        if (user != null) {
+            this.userId = user.getId();
         }
     }
 }

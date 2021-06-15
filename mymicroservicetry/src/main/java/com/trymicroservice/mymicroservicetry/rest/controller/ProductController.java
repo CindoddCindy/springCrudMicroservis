@@ -28,12 +28,19 @@ public class ProductController {
         List<Product> products = productService.getAllProduct();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
-
+/*
     @PostMapping("/product")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
+    public ResponseEntity<ProductDto> saveProduct(@RequestBody MyProductDto myProductDto) {
 
-        Product prd = productService.addProduct(product);
+        MyProductDto prd = productService.addProduct(myProductDto);
         return new ResponseEntity<>(prd, HttpStatus.OK);
+    }
+
+ */
+
+    @PostMapping
+    public ResponseEntity<ProductDto> createProduct(@RequestBody MyProductDto myProductDto) {
+        return new ResponseEntity(new ProductDto(productService.addProduct(myProductDto)), null, HttpStatus.CREATED);
     }
 
     @PostMapping("/product/edit")

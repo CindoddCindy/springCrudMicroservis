@@ -26,8 +26,8 @@ public class Product {
     @Column(name="product_code", nullable = false)
     private int productCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "user_id"), name = "user_id")
-    private User users;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

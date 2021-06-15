@@ -5,12 +5,13 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name="user")
 @Data
 public class User {
 
@@ -39,8 +40,7 @@ public class User {
      */
 
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Product> productList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    List<Product> products = new ArrayList<>();
 
 }

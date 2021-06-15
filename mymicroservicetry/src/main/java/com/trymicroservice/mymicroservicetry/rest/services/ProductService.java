@@ -78,14 +78,26 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product addProduct(Product product) {
+    public Product addProduct(MyProductDto myProductDto) {
 
-        User user = userRepository.findById(product.getUsers().getId()).orElse(null);
+        User user = userRepository.findById(myProductDto.getUser().getId()).orElse(null);
         if (null == user) {
             user = new User();
         }
-        user.setUsername(product.getUsers().getUsername());
-        product.setUsers(user);
+
+        Product product = new Product();
+        product.setProductName(myProductDto.getProductName());
+        product.setProductQuantity(myProductDto.getProductQuantity());
+        product.setProductCode(myProductDto.getProductCode());
+
+
+       // User userCreated = userRepository.save(user);
+       // userCreated = userRepository.save(userCreated);
+
+        user.setUsername(myProductDto.getUser().getUsername());
+        myProductDto.setUser(user);
+
+
         return productRepository.save(product);
     }
 
