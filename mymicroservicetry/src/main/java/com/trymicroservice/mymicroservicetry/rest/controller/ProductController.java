@@ -6,6 +6,7 @@ import com.trymicroservice.mymicroservicetry.rest.dto.request.MyProductDto;
 import com.trymicroservice.mymicroservicetry.rest.dto.request.MyUserDto;
 import com.trymicroservice.mymicroservicetry.rest.entities.Product;
 import com.trymicroservice.mymicroservicetry.rest.services.ProductService;
+import com.trymicroservice.mymicroservicetry.rest.services.ServiceProduct;
 import com.trymicroservice.mymicroservicetry.rest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,37 +63,37 @@ public class ProductController {
 
 
 
- private final ProductService productService;
+ private final ServiceProduct serviceProduct;
 
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ServiceProduct serviceProduct) {
+        this.serviceProduct = serviceProduct;
     }
 
     @GetMapping("{id}")
     public ProductDto findById(@PathVariable Long id) {
-        return this.productService.findById(id);
+        return this.serviceProduct.findById(id);
     }
 
     @GetMapping
     public List<ProductDto> findAll() {
-        return this.productService.findAll();
+        return this.serviceProduct.findAll();
     }
 
     @PostMapping
     public ProductDto save(@RequestBody ProductDto productDto) {
         productDto.setId(null);
-        return this.productService.save(shelfDto);
+        return this.serviceProduct.save(productDto);
     }
 
     @PutMapping
     public ProductDto update(@RequestBody ProductDto productDto) {
-        return this.productService.save(productDto);
+        return this.serviceProduct.save(productDto);
     }
 
     @DeleteMapping("{id}")
     public void deleteById(@PathVariable Long id) {
-        this.productService.deleteById(id);
+        this.serviceProduct.deleteById(id);
     }
 
 
