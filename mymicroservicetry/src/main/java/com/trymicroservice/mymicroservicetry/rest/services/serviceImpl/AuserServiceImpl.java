@@ -4,6 +4,8 @@ import com.trymicroservice.mymicroservicetry.rest.dto.AuserDTO;
 import com.trymicroservice.mymicroservicetry.rest.dto.ProductDto;
 import com.trymicroservice.mymicroservicetry.rest.entities.Product;
 import com.trymicroservice.mymicroservicetry.rest.entities.User;
+import com.trymicroservice.mymicroservicetry.rest.exception.InvalidProductDataException;
+import com.trymicroservice.mymicroservicetry.rest.exception.InvalidUserDataException;
 import com.trymicroservice.mymicroservicetry.rest.repositories.UserRepository;
 import com.trymicroservice.mymicroservicetry.rest.services.AuserService;
 import org.springframework.beans.BeanUtils;
@@ -18,21 +20,21 @@ import java.util.stream.Collectors;
 public class AuserServiceImpl implements AuserService {
 
     private final UserRepository userRepository;
-    private final WarehouseDtoValidator warehouseValidator;
+    //private final WarehouseDtoValidator warehouseValidator;
 
     @Autowired
     public AuserServiceImpl(
-            UserRepository userRepository,
-            WarehouseDtoValidator warehouseValidator) {
+            UserRepository userRepository
+            ) {
         this.userRepository = userRepository;
-        this.warehouseValidator = warehouseValidator;
+
     }
 
     @Override
     public AuserDTO findById(Long id) {
         User user = this.userRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new InvalidProductDataException("Not Found" + id));
 
         return new AuserDTO(user);
     }
@@ -48,9 +50,9 @@ public class AuserServiceImpl implements AuserService {
 
     @Override
     public AuserDTO save(AuserDTO auserDTO) {
-        this.warehouseValidator.validate(warehouseDto);
+
         User user = this.dtoToEntity(auserDTO);
-        User savedUser = this.userRepository.save(auserDTO);
+        User savedUser = this.userRepository.save(user);
         return new AuserDTO(savedUser);
     }
 
